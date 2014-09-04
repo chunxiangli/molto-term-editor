@@ -1,0 +1,32 @@
+var deleteData = new Array();
+var editData = new Array();
+var gfData = {
+	edit: function addModifiedData(JsonString){
+		editData.push(eval('(' + JsonString + ')'));
+	},
+	delete: function addDeleteData(data){
+		deleteData.push(data);
+	},
+	resetAll: function resetAllData(){
+		deleteData = new Array();
+		editData = new Array();
+	},
+	combineAll: function(){
+		var data = {modified:[],delete:[]};
+		//If a edit data is deleted at the final, removing it from the editarray
+		lenD = deleteData.length;
+		len = editData.length;
+		for(i = len - 1; i >= 0; i--){
+			for(j = lenD - 1; j >= 0; j--){
+				if(editData[i].name = deleteData[j].name){
+					editData.splice(i,1);
+					i--;
+					break;
+				}
+			}
+		}
+		data.modified = editData;
+		data.delete = deleteData;		
+		return data;
+	}
+}
